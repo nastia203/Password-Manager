@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.25)
-project(PC)
+project(Password_Manager)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(PC main.cpp)
+include_directories(.)
+
+add_executable(Password_Manager
+        main.cpp
+        main.h)
 include(FetchContent)
 FetchContent_Declare(
         fmt

@@ -56,14 +56,14 @@ void addTimestamp(const string& filename) {
 string encrypt(const string& input) {
     vector<char> word(input.begin(), input.end());
     string alf_lower = "abcdefghijklmnopqrstuvwxyz";
-    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     for (int i = 0; i < (int)input.length(); ++i) {
         if (isalpha(word[i])) {
-            string& alf = islower(word[i]) ? alf_lower : alf_upper;
+            string& alf= islower(word[i])? alf_lower:alf_upper;
             for (int j = 0; j < (int)alf.length(); ++j) {
                 if (word[i] == alf[j]) {
-                    word[i] = alf[(j + 3) % 26];  
+                    word[i] = alf[(j + 3) % 26];
                     break;
                 }
             }
@@ -75,7 +75,7 @@ string encrypt(const string& input) {
 }
 
 void encryptPasswords(const vector<Password>& passwords, const string& filename) {
-    ofstream file(filename,ios::in);
+    ofstream file(filename,ios::out);
     if (!file.is_open()) {
         cerr << "Unable to open file for writing: " << filename << endl;
         return;
@@ -100,16 +100,17 @@ void encryptPasswords(const vector<Password>& passwords, const string& filename)
 
 string decrypt(const string& input) {
     vector<char> word(input.begin(), input.end());
-    string alf_lower = "abcdefghijklmnopqrstuvwxyz";  
-    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+    string alf_lower = "abcdefghijklmnopqrstuvwxyz";
+    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     for (int i = 0; i < (int)input.length(); ++i) {
         if (isalpha(word[i])) {
-            string& alf = islower(word[i]) ? alf_lower : alf_upper;
+            string& alf= islower(word[i])? alf_lower:alf_upper;
             for (int j = 0; j < (int)alf.length(); ++j) {
                 if (word[i] == alf[j]) {
-                    word[i] = alf[(j -3) % 26];  // Сдвиг на 5 влево
+                    word[i] = alf[(j -3+26) % 26];
                     break;
+
                 }
             }
         }
@@ -127,13 +128,13 @@ void decryptPasswords(vector<Password>& passwords, const string& filename) {
     }
 
     for (const auto& password : passwords) {
-        file <<"name:"<< decrypt(password.name) << '\n';
-        file <<"login:"<< decrypt(password.login) << '\n';
-        file <<"password:"<< decrypt(password.password) << '\n';
+        file <<"name:"<< decrypt(encrypt(password.name)) << '\n';
+        file <<"login:"<< decrypt(encrypt(password.login)) << '\n';
+        file <<"password:"<< decrypt(encrypt(password.password)) << '\n';
         file<< "category:";
 
         for (const auto& category : password.category) {
-            file << decrypt(category) << ',';
+            file << decrypt(encrypt(category)) << ',';
         }
         file << "\n\n";
     }
@@ -141,6 +142,7 @@ void decryptPasswords(vector<Password>& passwords, const string& filename) {
     addTimestamp(filename);
     cout << "Passwords have been decrypted from " << filename << endl;
 }
+
 
 void securePassword(const string& password){
     int lvl=0;

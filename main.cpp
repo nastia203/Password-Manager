@@ -55,15 +55,15 @@ void addTimestamp(const string& filename) {
 
 string encrypt(const string& input) {
     vector<char> word(input.begin(), input.end());
-    string alf_lower = "abcdefghijklmnopqrstuvwxyz";  // Строчные буквы
-    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";  // Прописные буквы
+    string alf_lower = "abcdefghijklmnopqrstuvwxyz";
+    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
 
     for (int i = 0; i < (int)input.length(); ++i) {
         if (isalpha(word[i])) {
             string& alf = islower(word[i]) ? alf_lower : alf_upper;
             for (int j = 0; j < (int)alf.length(); ++j) {
                 if (word[i] == alf[j]) {
-                    word[i] = alf[(j + 3) % 26];  // Сдвиг на 5 вправо
+                    word[i] = alf[(j + 3) % 26];  
                     break;
                 }
             }
@@ -100,8 +100,8 @@ void encryptPasswords(const vector<Password>& passwords, const string& filename)
 
 string decrypt(const string& input) {
     vector<char> word(input.begin(), input.end());
-    string alf_lower = "abcdefghijklmnopqrstuvwxyz";  // Строчные буквы
-    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";  // Прописные буквы
+    string alf_lower = "abcdefghijklmnopqrstuvwxyz";  
+    string alf_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
 
     for (int i = 0; i < (int)input.length(); ++i) {
         if (isalpha(word[i])) {

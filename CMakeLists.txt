@@ -6,8 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 include_directories(.)
 
 add_executable(Password_Manager
-        main.cpp
-        main.h)
+        main.cpp)
 include(FetchContent)
 FetchContent_Declare(
         fmt
